@@ -26,12 +26,17 @@ function getForkedReposData(repoUrl) {
   return fetch(repoForksApiUrl(repoUrl))
     .then(resp => { return resp.json() })
     .then(data => {
-      return data.map(repo => {
-        return {
-          repo_name: repo.full_name,
-          pushed_at: repo.pushed_at
+      let allRepos = [];
+      data.map(repo => {
+        const repoName = repo.full_name;
+        if (repoName !== currentRepo) {
+          allRepos.push({
+            repo_name: repo.full_name,
+            pushed_at: repo.pushed_at
+          });
         }
       });
+      return allRepos;
     })
     .catch(err => { console.log(err) });
 }
