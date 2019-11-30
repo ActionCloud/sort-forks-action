@@ -2826,7 +2826,7 @@ function getForkedReposData(repoUrl, parentRepoData) {
       return {
         parent_repo: parentRepoData.repo_name,
         data: allRepos.push(parentRepoData).sort((a, b) => b - a)
-      }
+      };
     })
     .catch(err => { console.log(err) });
 }
