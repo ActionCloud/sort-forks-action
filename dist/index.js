@@ -2783,7 +2783,8 @@ const currentRepo = process.env.GITHUB_REPOSITORY;
 
 async function run() {
   const parentRepoUrl = await getParentRepoUrl();
-  const forkedReposData = await getForkedReposData(parentRepoUrl);
+  const parentRepoData = await getParentRepoData(parentRepoUrl);
+  const forkedReposData = await getForkedReposData(parentRepoUrl, parentRepoData);
   dumpData(forkedReposData);
 }
 
@@ -2798,8 +2799,19 @@ function getParentRepoUrl() {
     .catch(err => { console.log(err) });
 }
 
-function getForkedReposData(repoUrl) {
-  return fetch(repoForksApiUrl(repoUrl))
+function getParentRepoData(url) {
+  return getRepoInfo(url)
+    .then(data => {
+      return {
+        repo_name: data.full_name,
+        pushed_at: data.pushed_at
+      }
+    })
+    .catch(err => { console.log(err) });
+}
+
+function getForkedReposData(repoUrl, parentRepoData) {
+  getRepoInfo(repoForksApiUrl(repoUrl))
     .then(resp => { return resp.json() })
     .then(data => {
       let allRepos = [];
@@ -2812,7 +2824,10 @@ function getForkedReposData(repoUrl) {
           });
         }
       });
-      return allRepos.sort((a, b) => b - a);
+      return {
+        parent_repo: parentRepoData.repo_name,
+        data: allRepos.push(parentRepoData).sort((a, b) => b - a)
+      }
     })
     .catch(err => { console.log(err) });
 }
