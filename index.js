@@ -35,8 +35,7 @@ function getParentRepoData(url) {
 }
 
 function getForkedReposData(repoUrl, parentRepoData) {
-  getRepoInfo(repoForksApiUrl(repoUrl))
-    .then(resp => { return resp.json() })
+  return getRepoInfo(repoForksApiUrl(repoUrl))
     .then(data => {
       let allRepos = [];
       data.map(repo => {
