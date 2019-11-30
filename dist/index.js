@@ -2812,7 +2812,7 @@ function getForkedReposData(repoUrl) {
           });
         }
       });
-      return allRepos;
+      return allRepos.sort((a, b) => b - a);
     })
     .catch(err => { console.log(err) });
 }
