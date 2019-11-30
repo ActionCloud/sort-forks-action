@@ -2814,7 +2814,7 @@ function getForkedReposData(repoUrl, parentRepoData) {
   return getRepoInfo(repoForksApiUrl(repoUrl))
     .then(data => {
       let allRepos = [];
-      data.map(repo => {
+      data.forEach(repo => {
         const repoName = repo.full_name;
         if (repoName !== currentRepo) {
           allRepos.push({
