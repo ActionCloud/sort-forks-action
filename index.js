@@ -8,7 +8,7 @@ const currentRepo = process.env.GITHUB_REPOSITORY;
 async function run() {
   const parentRepoUrl = await getParentRepoUrl();
   const forkedReposData = await getForkedReposData(parentRepoUrl);
-  dumpData(foredReposData);
+  dumpData(forkedReposData);
 }
 
 run();
