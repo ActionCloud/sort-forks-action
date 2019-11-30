@@ -16,7 +16,7 @@ run();
 
 
 function getParentRepoUrl() {
-  return getRepoInfo(currentRepo)
+  return getRepoInfo(repoApiUrl(currentRepo))
     .then(data => {
       return data.parent.url;
     })
@@ -24,8 +24,7 @@ function getParentRepoUrl() {
 }
 
 function getParentRepoData(url) {
-  return fetch(repoForksApiUrl(url))
-    .then(resp => { return resp.json() })
+  return getRepoInfo(url)
     .then(data => {
       return {
         repo_name: data.full_name,
@@ -36,8 +35,7 @@ function getParentRepoData(url) {
 }
 
 function getForkedReposData(repoUrl, parentRepoData) {
-  return fetch(repoForksApiUrl(repoUrl))
-    .then(resp => { return resp.json() })
+  return getRepoInfo(repoForksApiUrl(repoUrl))
     .then(data => {
       let allRepos = [];
       data.forEach(repo => {
@@ -57,8 +55,8 @@ function getForkedReposData(repoUrl, parentRepoData) {
     .catch(err => { console.log(err) });
 }
 
-function getRepoInfo(repo) {
-  return fetch(repoApiUrl(repo))
+function getRepoInfo(url) {
+  return fetch(url)
     .then(resp => { return resp.json() })
     .catch(err => { console.log(err) });
 }
