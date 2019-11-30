@@ -2786,6 +2786,7 @@ async function run() {
   const parentRepoData = await getParentRepoData(parentRepoUrl);
   const forkedReposData = await getForkedReposData(parentRepoUrl, parentRepoData);
   dumpData(forkedReposData);
+  printBadgeLink();
 }
 
 run();
@@ -2857,6 +2858,14 @@ function dumpData(data) {
   fs.writeFile(dataFilePath, jsonData, (err) => {
     if (err) throw err;
   });
+}
+
+function printBadgeLink() {
+  const repoInfo = currentRepo.split("/");
+  const repoOwner = repoInfo[0];
+  const repoName = repoInfo[1];
+  const actioncloudBadge = '[![](https://img.shields.io/badge/ActionCloud%20App-Sort%20Forks-blue)](https://free.actioncloud.io/apps/sort-forks?owner=' + repoOwner + '&repo=' + repoName + ')';
+  console.log(`::set-output name=actioncloud-badge::${actioncloudBadge}`)
 }
 
 
