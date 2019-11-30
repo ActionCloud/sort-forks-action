@@ -1,0 +1,28 @@
+name: Test sort forks
+
+on: [push]
+
+jobs:
+  test_issue_tracker:
+    runs-on: ubuntu-latest
+    name: A job to test sort forks
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v1
+    - name: Sort forks
+      id: sort
+      uses: ./
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Git commit
+      run: |
+        git config --global user.email "idegorepl@gmail.com"
+        git config --global user.name "ActionCloud Bot"
+        git add .
+        git commit -m "Update forks data"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Check output
+      run: echo '${{ steps.sort.outputs.actioncloud-badge }}'

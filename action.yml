@@ -1,0 +1,15 @@
+name: 'GitHub sort forks'
+description: 'Sort a GitHub repo forks by last pushed date'
+inputs:
+  github-token:
+    description: 'A GitHub token'
+    required: true
+outputs:
+  actioncloud-badge: # id of output
+    description: 'The badge url of a ActionCloud Page'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
+branding:
+  icon: 'bar-chart-2'
+  color: 'green'
