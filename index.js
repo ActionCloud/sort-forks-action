@@ -47,9 +47,11 @@ function getForkedReposData(repoUrl, parentRepoData) {
           });
         }
       });
+      allRepos.push(parentRepoData);
+      allRepos.sort((a,b) => (b.pushed_at > a.pushed_at) ? 1 : ((a.pushed_at > b.pushed_at) ? -1 : 0));
       return {
         parent_repo: parentRepoData.repo_name,
-        data: allRepos.push(parentRepoData).sort((a, b) => b - a)
+        data: allRepos
       };
     })
     .catch(err => { console.log(err) });
