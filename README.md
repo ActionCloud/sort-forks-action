@@ -4,6 +4,11 @@
 
 Sort Forks Action can help to sort forked repos by last updated date to find those most active repos you may get new update from them.
 
+There're two use situations:
+
+1. You add the Action in the parent repo to track those active forked repos
+2. You add the Action in one of your forked repo to track the parent repo and other forked repos
+
 ## Usage
 
 ```yaml
