@@ -2,6 +2,7 @@
 
 ![](https://github.com/actioncloud/sort-forks-action/workflows/Test%20sort%20forks/badge.svg)
 
+Sort Forks Action can help to sort forked repos by last updated date to find those most active repos you may get new update from them.
 
 ## Usage
 
@@ -23,7 +24,7 @@ jobs:
       uses: actions/checkout@v1
     - name: Sort forks
       id: sort
-      uses: ./
+      uses: actioncloud/sort-forks-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
     # you need git commit to push the forks data to the folder: .github/actioncloud
