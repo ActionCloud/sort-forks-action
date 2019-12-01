@@ -19,7 +19,11 @@ run();
 function getParentRepoUrl() {
   return getRepoInfo(repoApiUrl(currentRepo))
     .then(data => {
-      return data.parent.url;
+      if (data.fork) {
+        return data.parent.url;
+      }
+      // if it's not a forked repo, take itself as a parent
+      return data.url;
     })
     .catch(err => { console.log(err) });
 }
