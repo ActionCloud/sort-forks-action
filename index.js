@@ -4,6 +4,7 @@ const fetch = require("node-fetch");
 
 const githubToken = core.getInput('github-token');
 const currentRepo = process.env.GITHUB_REPOSITORY;
+var currentRepoIsParent = false;
 
 async function run() {
   const parentRepoUrl = await getParentRepoUrl();
@@ -23,6 +24,7 @@ function getParentRepoUrl() {
         return data.parent.url;
       }
       // if it's not a forked repo, take itself as a parent
+      currentRepoIsParent = true;
       return data.url;
     })
     .catch(err => { console.log(err) });
@@ -42,17 +44,17 @@ function getParentRepoData(url) {
 function getForkedReposData(repoUrl, parentRepoData) {
   return getRepoInfo(repoForksApiUrl(repoUrl))
     .then(data => {
-      let allRepos = [];
-      data.forEach(repo => {
-        const repoName = repo.full_name;
-        if (repoName !== currentRepo) {
-          allRepos.push({
-            repo_name: repo.full_name,
-            pushed_at: repo.pushed_at
-          });
-        }
+      var allRepos = data.map(repo => {
+        return {
+          repo_name: repo.full_name,
+          pushed_at: repo.pushed_at
+        };
       });
-      allRepos.push(parentRepoData);
+      // remove current repo from allRepos if currentRepo is not parent
+      if (!currentRepoIsParent) {
+        const index = allRepos.indexOf(currentRepo);
+        allRepos.splice(index, 1);
+      }
       allRepos.sort((a,b) => (b.pushed_at > a.pushed_at) ? 1 : ((a.pushed_at > b.pushed_at) ? -1 : 0));
       return {
         parent_repo: parentRepoData.repo_name,
