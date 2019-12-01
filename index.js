@@ -54,6 +54,7 @@ function getForkedReposData(repoUrl, parentRepoData) {
       if (!currentRepoIsParent) {
         const index = allRepos.indexOf(currentRepo);
         allRepos.splice(index, 1);
+        allRepos.push(parentRepoData);
       }
       allRepos.sort((a,b) => (b.pushed_at > a.pushed_at) ? 1 : ((a.pushed_at > b.pushed_at) ? -1 : 0));
       return {
