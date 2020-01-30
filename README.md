@@ -35,10 +35,13 @@ jobs:
     # you need git commit to push the forks data to the folder: .github/actioncloud
     - name: Git commit
       run: |
-        git config --global user.email "idegorepl@gmail.com"
-        git config --global user.name "ActionCloud Bot"
-        git add .
-        git commit -m "Update forks data"
+        # git commit if there's any change
+        if test -n "$(git status --porcelain 2>/dev/null)"; then
+            git config --global user.email "idegorepl@gmail.com"
+            git config --global user.name "ActionCloud Bot"
+            git add .
+            git commit -m "Update forks data"
+        fi
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
