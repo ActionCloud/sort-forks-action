@@ -41,11 +41,8 @@ jobs:
             git config --global user.name "ActionCloud Bot"
             git add .
             git commit -m "Update forks data"
+            git push
         fi
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
     # you can get badge code of ActionCloud viewer App, and click it to view your data
     - name: Check output
       run: echo '${{ steps.sort.outputs.actioncloud-badge }}'
